@@ -3,30 +3,38 @@ const nextButton = document.getElementById("nextButton");
 const carousel = document.getElementById("carousel");
 const buttonWrapper = document.getElementById("buttonWrapper");
 
+carousel.style.overflow = "unset";
+let positionOffset = 0;
+
 function updateButtons() {
-  prevButton.disabled = carousel.scrollLeft === 0;
+  prevButton.disabled = positionOffset >= 0;
   nextButton.disabled =
-    carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth;
+    carousel.scrollWidth + positionOffset <= carousel.clientWidth;
   buttonWrapper.style.display =
     carousel.clientWidth === carousel.scrollWidth ? "none" : "flex";
 }
 
+function slideCarousel(offset) {
+  positionOffset += offset;
+  carousel.style.transform = `translateX(${positionOffset}px)`;
+  updateButtons();
+}
+
+function reset() {
+  positionOffset = 0;
+  slideCarousel(0);
+}
+
 prevButton.addEventListener("click", () => {
-  carousel.scrollBy({
-    left: -carousel.clientWidth,
-    behavior: "smooth",
-  });
+  slideCarousel(carousel.clientWidth);
 });
 
 nextButton.addEventListener("click", () => {
-  carousel.scrollBy({
-    left: carousel.clientWidth,
-    behavior: "smooth",
-  });
+  slideCarousel(-carousel.clientWidth);
 });
 
-// Update buttons when the user scrolls
-carousel.addEventListener("scroll", updateButtons);
+// Reset state and postion on window resize, for testing purposes
+window.addEventListener("resize", reset);
 
 // Initially update the buttons
 updateButtons();
