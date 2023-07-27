@@ -1,0 +1,92 @@
+:root {
+  --desktopItem: 3;
+  --tabletItem: 2;
+  --mobileItem: 1;
+}
+
+body {
+  margin: 0;
+}
+
+.carousel-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  overflow: auto;
+  list-style: none;
+  padding: 0 0 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.carousel-item {
+  flex: 0 0 calc(100%/var(--desktopItem)); /* This will display 3 items per slide */
+  scroll-snap-align: start;
+}
+
+.content {
+  background-color: antiquewhite;
+  padding: 20px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.carousel-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: .6;
+}
+
+.carousel-button:not(button:disabled):hover {
+  opacity: 1;
+}
+
+.carousel-button::after {
+  content: "\2303";
+  font-size: 24px;
+  transform: translateY(3px);
+}
+
+.carousel-button.next {
+  transform: rotate(90deg);
+}
+
+.carousel-button.prev {
+  transform: rotate(-0.25turn);
+}
+
+.carousel-button:disabled {
+  border-color: rgba(16, 16, 16, 0.3);
+}
+
+/* Adjust the number of items shown per slide for tablet and mobile */
+@media screen and (max-width: 768px) {
+  .carousel-item {
+    flex: 0 0 calc(100%/var(--tabletItem)); /* This will display 2 items per slide on tablet */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .carousel-item {
+    flex: 0 0 calc(100%/var(--mobileItem)); /* This will display 1 item per slide on mobile */
+  }
+}
